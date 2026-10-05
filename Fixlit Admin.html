@@ -1,0 +1,1220 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#162b4d" />
+    <meta name="description" content="Fixlit Admin — a calm command centre for campus maintenance." />
+    <title>Fixlit Admin · Campus maintenance</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+    <style>
+:root {
+  --navy: #162b4d;
+  --navy-deep: #0e203d;
+  --ink: #263650;
+  --muted: #77839a;
+  --muted-dark: #55647c;
+  --sand: #f5f4ef;
+  --paper: #fbfbf8;
+  --white: #ffffff;
+  --line: #e3e7ec;
+  --mint: #c7f2dd;
+  --mint-deep: #348362;
+  --amber: #ffddb0;
+  --amber-deep: #a56415;
+  --coral: #ffd0c6;
+  --coral-deep: #bd5b4d;
+  --lavender: #dedbff;
+  --lavender-deep: #665fa1;
+  --shadow: 0 18px 45px rgba(22, 43, 77, 0.07);
+  --radius: 18px;
+  font-family: "DM Sans", "Segoe UI", sans-serif;
+  color: var(--ink);
+  background: var(--sand);
+  font-synthesis: none;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; min-width: 320px; background: var(--sand); color: var(--ink); }
+button, input, select, textarea { font: inherit; }
+button { cursor: pointer; }
+button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 3px solid rgba(63, 141, 111, 0.35); outline-offset: 2px; }
+.is-hidden { display: none !important; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+
+.brand { display: inline-flex; align-items: center; gap: 9px; font: 700 22px/1 "Space Grotesk", sans-serif; letter-spacing: -0.08em; }
+.brand--dark { color: var(--navy); }
+.brand--light { color: var(--white); }
+.brand__mark { width: 28px; height: 28px; border-radius: 9px; display: inline-flex; align-items: center; justify-content: center; background: var(--navy); position: relative; transform: rotate(-5deg); }
+.brand--light .brand__mark { background: var(--mint); }
+.brand__mark::before { content: ""; width: 10px; height: 14px; background: var(--white); clip-path: polygon(58% 0, 100% 0, 69% 43%, 100% 43%, 30% 100%, 43% 55%, 0 55%); transform: rotate(5deg); }
+.brand--light .brand__mark::before { background: var(--navy); }
+.eyebrow { display: inline-block; color: var(--muted); font-size: 10px; font-weight: 700; letter-spacing: .15em; text-transform: uppercase; }
+.eyebrow--light { color: rgba(255,255,255,.58); }
+.micro-label { font-size: 10px; text-transform: uppercase; letter-spacing: .13em; opacity: .66; }
+
+.login-view { min-height: 100vh; display: grid; grid-template-columns: minmax(420px, .97fr) minmax(500px, 1.03fr); background: var(--paper); }
+.login-art { position: relative; display: flex; flex-direction: column; justify-content: space-between; min-height: 100vh; overflow: hidden; padding: 39px clamp(35px, 6vw, 92px) 32px clamp(35px, 7vw, 104px); color: var(--white); background: var(--navy); }
+.login-art::before, .login-art::after { content: ""; position: absolute; border: 1px solid rgba(199,242,221,.2); border-radius: 50%; pointer-events: none; }
+.login-art::before { width: 620px; height: 620px; right: -290px; top: 12%; }
+.login-art::after { width: 420px; height: 420px; right: -195px; top: 23%; border-color: rgba(199,242,221,.13); }
+.login-art__topline, .login-art__footer { position: relative; z-index: 1; display: flex; align-items: center; gap: 14px; }
+.login-art__footer { justify-content: flex-start; color: rgba(255,255,255,.6); font-size: 11px; letter-spacing: .02em; }
+.art-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--mint); }
+.login-art__copy { position: relative; z-index: 1; max-width: 495px; margin-top: 8vh; transform: translateY(-8%); }
+.login-art__copy h1 { margin: 18px 0 23px; color: #fff; font: 700 clamp(43px, 5.1vw, 72px)/.98 "Space Grotesk", sans-serif; letter-spacing: -.075em; }
+.login-art__copy h1 em, .hero-section h1 em, .quick-panel h2 em { color: var(--mint); font-style: normal; }
+.login-art__copy p { max-width: 380px; color: rgba(255,255,255,.68); font-size: 16px; line-height: 1.65; }
+.login-panel { display: flex; align-items: center; justify-content: center; padding: 42px 8%; background: var(--paper); }
+.login-panel__inner { width: min(390px, 100%); }
+.login-heading { margin: 74px 0 34px; }
+.login-heading h2 { margin: 11px 0 8px; color: var(--navy); font: 700 39px/1 "Space Grotesk", sans-serif; letter-spacing: -.07em; }
+.login-heading p { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.55; }
+.form-stack { display: flex; flex-direction: column; gap: 10px; }
+.field-label { color: var(--ink); font-size: 12px; font-weight: 700; }
+.input-wrap { position: relative; display: flex; align-items: center; margin-bottom: 9px; }
+.input-wrap input, .form-field input, .form-field select, .form-field textarea { width: 100%; border: 1px solid var(--line); border-radius: 10px; background: var(--white); color: var(--ink); padding: 13px 14px; font-size: 13px; transition: border .18s, box-shadow .18s; }
+.input-wrap input { padding-left: 40px; padding-right: 65px; }
+.input-wrap input::placeholder, .form-field input::placeholder, .form-field textarea::placeholder { color: #aeb6c2; }
+.input-wrap input:focus, .form-field input:focus, .form-field select:focus, .form-field textarea:focus { border-color: #7aa891; box-shadow: 0 0 0 3px rgba(122,168,145,.12); outline: 0; }
+.input-icon { position: absolute; left: 14px; color: #9ea8b6; font-size: 14px; font-weight: 700; z-index: 1; }
+.password-toggle { position: absolute; right: 12px; border: 0; background: transparent; color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: .08em; }
+.button { display: inline-flex; justify-content: center; align-items: center; gap: 14px; min-height: 45px; border: 1px solid transparent; border-radius: 10px; padding: 0 17px; font-size: 12px; font-weight: 700; transition: transform .18s ease, box-shadow .18s ease, background .18s ease; }
+.button:hover { transform: translateY(-2px); box-shadow: 0 9px 19px rgba(22,43,77,.12); }
+.button--primary { color: var(--white); background: var(--navy); }
+.button--primary:hover { background: var(--navy-deep); }
+.button--secondary { color: var(--navy); border-color: #d8e0ea; background: var(--white); }
+.button--secondary:hover { border-color: var(--navy); box-shadow: none; }
+.button--ghost { color: var(--navy); border-color: var(--line); background: transparent; }
+.button--light { color: var(--navy); background: var(--mint); }
+.button--wide { width: 100%; min-height: 50px; margin-top: 7px; }
+.button--compact { min-height: 36px; padding: 0 13px; font-size: 11px; }
+.button-arrow { font-size: 17px; line-height: 0; }
+.text-button { padding: 0; border: 0; background: transparent; color: var(--muted-dark); font-size: 11px; font-weight: 700; transition: color .18s; }
+.text-button:hover { color: var(--navy); }
+.form-error { min-height: 19px; margin: 0; color: var(--coral-deep); font-size: 12px; }
+.demo-access { display: flex; align-items: center; gap: 11px; margin-top: 32px; padding: 12px 13px; border: 1px solid #e6e9e4; border-radius: 11px; background: #f7f8f4; }
+.demo-access__key { align-self: flex-start; padding: 5px 6px; border-radius: 5px; color: var(--mint-deep); background: var(--mint); font-size: 8px; font-weight: 700; letter-spacing: .1em; white-space: nowrap; }
+.demo-access div { display: flex; flex-direction: column; gap: 3px; flex: 1; color: var(--muted); font-size: 11px; }
+.demo-access strong { color: var(--ink); font-size: 11px; }
+.demo-access .text-button { color: var(--mint-deep); white-space: nowrap; }
+.login-panel__note { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 58px; color: #a1a9b2; font-size: 10px; }
+.lock-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--mint-deep); }
+
+.app-view { display: flex; min-height: 100vh; background: var(--sand); }
+.sidebar { position: fixed; z-index: 20; top: 0; bottom: 0; left: 0; display: flex; flex-direction: column; width: 247px; padding: 31px 19px 21px; border-right: 1px solid #e8e8e1; background: var(--paper); }
+.sidebar__head { display: flex; align-items: center; justify-content: space-between; padding: 0 13px 0 8px; }
+.sidebar-close, .menu-toggle { display: none; }
+.sidebar__context { display: flex; align-items: center; gap: 7px; margin: 39px 10px 25px; color: #8c96a2; font-size: 9px; text-transform: uppercase; letter-spacing: .09em; white-space: nowrap; }
+.context-line { width: 14px; height: 1px; background: #d7dce0; }
+.status-pulse { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: #5bb488; box-shadow: 0 0 0 3px rgba(91,180,136,.13); }
+.nav-list { display: flex; flex-direction: column; gap: 5px; }
+.nav-item { display: flex; align-items: center; gap: 13px; width: 100%; min-height: 41px; padding: 0 11px; border: 0; border-radius: 9px; color: #7a8595; background: transparent; text-align: left; font-size: 12px; transition: background .18s, color .18s, transform .18s; }
+.nav-item:hover { color: var(--navy); background: #f2f4f1; transform: translateX(2px); }
+.nav-item.is-active { color: var(--navy); background: #eaf6ee; font-weight: 700; }
+.nav-icon { display: inline-flex; align-items: center; justify-content: center; width: 17px; color: currentColor; font-size: 18px; line-height: 1; }
+.nav-icon--list { font-size: 25px; transform: translateY(-1px); }
+.nav-icon--chart { font-size: 17px; }
+.nav-count { margin-left: auto; color: #a6afba; font-size: 11px; }
+.nav-item.is-active .nav-count { color: var(--mint-deep); }
+.sidebar__section-label { margin: 39px 11px 12px; color: #a8b0b9; font-size: 9px; font-weight: 700; letter-spacing: .13em; text-transform: uppercase; }
+.nav-list--secondary .nav-item { min-height: 36px; font-size: 11px; }
+.sidebar__bottom { margin-top: auto; }
+.side-tip { display: flex; gap: 11px; margin: 0 7px 25px; padding: 15px 12px; border-radius: 10px; color: var(--navy); background: var(--mint); }
+.side-tip__mark { color: var(--mint-deep); font-size: 17px; }
+.side-tip div { display: flex; flex-direction: column; gap: 6px; }
+.side-tip strong { font: 700 12px/1.15 "Space Grotesk", sans-serif; letter-spacing: -.03em; }
+.side-tip span:not(.side-tip__mark) { color: #56886f; font-size: 9px; line-height: 1.35; }
+.logout-button { display: flex; align-items: center; gap: 13px; width: 100%; padding: 8px 11px 22px; border: 0; border-bottom: 1px solid #eaebe6; color: #7a8595; background: transparent; font-size: 11px; text-align: left; }
+.logout-button:hover { color: var(--coral-deep); }
+.account-mini { display: flex; align-items: center; gap: 9px; padding: 16px 7px 0; }
+.avatar { display: inline-flex; align-items: center; justify-content: center; flex: 0 0 auto; width: 30px; height: 30px; border-radius: 9px; color: var(--navy); background: var(--mint); font-size: 10px; font-weight: 700; }
+.avatar--small { width: 29px; height: 29px; border-radius: 50%; color: #725f28; background: var(--amber); }
+.account-mini div { display: flex; flex-direction: column; gap: 2px; flex: 1; }
+.account-mini strong { color: var(--ink); font-size: 10px; }
+.account-mini span:not(.avatar):not(.account-more) { color: #929ba6; font-size: 9px; }
+.account-more { color: #9fa7b0; letter-spacing: 2px; }
+.app-shell { width: calc(100% - 247px); margin-left: 247px; }
+.topbar { display: flex; align-items: center; justify-content: space-between; height: 84px; padding: 0 clamp(25px, 4.2vw, 65px); border-bottom: 1px solid #e6e7e0; background: rgba(251,251,248,.76); }
+.topbar__left, .topbar__right { display: flex; align-items: center; gap: 18px; }
+.breadcrumb { display: flex; align-items: center; gap: 10px; color: #a1a8b1; font-size: 11px; }
+.breadcrumb strong { color: var(--ink); }
+.breadcrumb__slash { color: #ccd1d5; }
+.topbar-date { display: flex; align-items: center; gap: 8px; color: #7f8996; font-size: 10px; }
+.notification-button { position: relative; border: 0; background: transparent; color: #7f8996; font-size: 19px; }
+.notification-dot { position: absolute; top: 4px; right: 3px; width: 5px; height: 5px; border: 1px solid var(--paper); border-radius: 50%; background: var(--coral-deep); }
+.content { max-width: 1480px; margin: 0 auto; padding: 56px clamp(25px, 4.2vw, 65px) 30px; }
+.hero-section { display: flex; align-items: flex-end; justify-content: space-between; gap: 40px; margin-bottom: 37px; }
+.hero-section h1 { margin: 14px 0 12px; color: var(--navy); font: 700 clamp(42px, 4.3vw, 63px)/.98 "Space Grotesk", sans-serif; letter-spacing: -.08em; }
+.hero-section h1 em { color: #4a9a77; }
+.hero-subtitle { margin: 0; color: var(--muted); font-size: 14px; }
+.hero-note { display: flex; align-items: center; gap: 13px; width: 205px; margin-bottom: 8px; color: var(--muted); }
+.hero-note__number { align-self: flex-start; color: #97a4b1; font: 600 19px "Space Grotesk", sans-serif; letter-spacing: -.05em; }
+.hero-note__line { width: 1px; height: 48px; background: #d7ddd9; }
+.hero-note div { display: flex; flex-direction: column; gap: 5px; }
+.hero-note strong { color: var(--ink); font-size: 11px; }
+.hero-note p { margin: 0; font-size: 10px; line-height: 1.45; }
+.metrics-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 13px; }
+.metric-card { min-height: 160px; padding: 20px 20px 17px; border: 1px solid #e6e8e4; border-radius: var(--radius); background: var(--paper); box-shadow: 0 3px 10px rgba(22,43,77,.015); }
+.metric-card--dark { border-color: var(--navy); color: var(--white); background: var(--navy); }
+.metric-card--mint { border-color: #d0eee0; background: #eef9f2; }
+.metric-card__top, .metric-card__foot { display: flex; align-items: center; justify-content: space-between; }
+.metric-label { color: #8a95a3; font-size: 10px; font-weight: 600; }
+.metric-card--dark .metric-label { color: rgba(255,255,255,.55); }
+.metric-icon { display: inline-flex; align-items: center; justify-content: center; width: 25px; height: 25px; border-radius: 8px; font-size: 13px; font-weight: 700; }
+.metric-icon--light { color: var(--navy); background: rgba(255,255,255,.9); }
+.metric-icon--coral { color: var(--coral-deep); background: var(--coral); }
+.metric-icon--amber { color: var(--amber-deep); background: var(--amber); }
+.metric-icon--green { color: var(--mint-deep); background: var(--mint); }
+.metric-number { display: block; margin: 18px 0 18px; color: var(--navy); font: 600 38px/1 "Space Grotesk", sans-serif; letter-spacing: -.08em; }
+.metric-card--dark .metric-number { color: var(--white); }
+.metric-card__foot { color: #9ca5af; font-size: 9px; }
+.metric-trend { margin-right: 6px; color: #70a889; font-size: 10px; font-weight: 700; }
+.metric-trend--light { color: var(--mint); }
+.metric-trend--amber { color: #bc812d; }
+.metric-trend--green { color: var(--mint-deep); }
+.signal-strip { display: flex; align-items: center; gap: 23px; min-height: 69px; margin: 13px 0 38px; padding: 13px 21px; border: 1px solid #e2e8e2; border-radius: 14px; background: #edf5ef; }
+.signal-strip__label { display: flex; align-items: center; gap: 10px; min-width: 160px; }
+.signal-mark { display: inline-flex; align-items: center; justify-content: center; width: 27px; height: 27px; border-radius: 50%; color: var(--mint-deep); background: var(--mint); font-size: 13px; }
+.signal-strip__label div, .signal-strip__score { display: flex; flex-direction: column; gap: 2px; }
+.signal-strip__label strong { color: var(--ink); font-size: 11px; }
+.signal-strip__label span:not(.signal-mark), .signal-strip__score span { color: #91a099; font-size: 9px; }
+.signal-strip__bar { flex: 1; height: 6px; overflow: hidden; border-radius: 10px; background: #d3e6d9; }
+.signal-strip__bar span { display: block; height: 100%; border-radius: inherit; background: #5da47c; }
+.signal-strip__score { min-width: 130px; }
+.signal-strip__score strong { color: var(--mint-deep); font: 600 19px "Space Grotesk", sans-serif; letter-spacing: -.04em; }
+.signal-strip__spark { display: flex; align-items: flex-end; gap: 3px; height: 27px; margin-left: auto; }
+.signal-strip__spark i { display: block; width: 4px; border-radius: 2px; background: #acd6ba; }
+.signal-strip__spark i:nth-child(1) { height: 8px; } .signal-strip__spark i:nth-child(2) { height: 13px; } .signal-strip__spark i:nth-child(3) { height: 11px; } .signal-strip__spark i:nth-child(4) { height: 18px; } .signal-strip__spark i:nth-child(5) { height: 15px; } .signal-strip__spark i:nth-child(6) { height: 23px; background: #67ab83; } .signal-strip__spark i:nth-child(7) { height: 19px; } .signal-strip__spark i:nth-child(8) { height: 25px; background: #67ab83; }
+.workspace-grid { display: grid; grid-template-columns: minmax(0, 1.76fr) minmax(245px, .72fr); gap: 14px; align-items: stretch; }
+.panel-card { border: 1px solid #e5e7e2; border-radius: var(--radius); background: var(--paper); box-shadow: var(--shadow); }
+.issues-panel { overflow: hidden; padding: 25px 25px 0; }
+.panel-heading, .section-heading, .insight-card__head { display: flex; align-items: flex-start; justify-content: space-between; gap: 20px; }
+.panel-heading h2, .section-heading h2 { margin: 8px 0 0; color: var(--navy); font: 600 25px/1.12 "Space Grotesk", sans-serif; letter-spacing: -.065em; }
+.filter-row { display: flex; gap: 9px; margin: 24px 0 16px; }
+.search-field { display: flex; align-items: center; flex: 1; height: 36px; gap: 8px; padding: 0 11px; border: 1px solid var(--line); border-radius: 8px; background: var(--white); }
+.search-field span { color: #91a0ad; font-size: 19px; transform: rotate(-15deg); }
+.search-field input { width: 100%; border: 0; outline: 0; color: var(--ink); font-size: 11px; }
+.search-field input::placeholder { color: #abb4bf; }
+.select-wrap { position: relative; }
+.select-wrap select { height: 36px; min-width: 115px; padding: 0 27px 0 10px; border: 1px solid var(--line); border-radius: 8px; color: var(--muted-dark); background: var(--white); font-size: 10px; appearance: none; }
+.select-wrap::after { content: "⌄"; position: absolute; top: 9px; right: 9px; color: #a4afb8; font-size: 13px; pointer-events: none; }
+.issue-list-head, .issue-row { display: grid; grid-template-columns: minmax(200px, 1.55fr) minmax(110px, .8fr) 93px 100px 70px 22px; gap: 12px; align-items: center; }
+.issue-list-head { padding: 0 10px 9px; color: #a3adb7; font-size: 9px; text-transform: uppercase; letter-spacing: .09em; }
+.issue-list { border-top: 1px solid #e9ebe7; }
+.issue-row { min-height: 66px; padding: 10px; border-bottom: 1px solid #edf0ec; transition: background .16s, transform .16s; }
+.issue-row:hover { background: #f7f9f5; transform: translateX(2px); }
+.issue-main { display: flex; align-items: center; gap: 11px; min-width: 0; }
+.issue-symbol { display: inline-flex; align-items: center; justify-content: center; flex: 0 0 auto; width: 31px; height: 31px; border-radius: 10px; color: var(--navy); background: #ebedf8; font-size: 14px; font-weight: 700; }
+.issue-symbol--electrical { color: var(--amber-deep); background: #fff0d9; } .issue-symbol--water { color: #4b78a3; background: #dceaf7; } .issue-symbol--classroom { color: #8c5f9e; background: var(--lavender); } .issue-symbol--safety { color: var(--coral-deep); background: var(--coral); } .issue-copy { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.issue-copy strong { overflow: hidden; color: var(--ink); font-size: 11px; font-weight: 700; text-overflow: ellipsis; white-space: nowrap; }
+.issue-copy span, .issue-location, .issue-date { color: #8f9aa7; font-size: 10px; }
+.issue-location { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.priority-chip, .status-chip { display: inline-flex; align-items: center; gap: 5px; width: max-content; padding: 5px 8px; border-radius: 6px; font-size: 9px; font-weight: 700; white-space: nowrap; }
+.priority-chip::before, .status-chip::before { content: ""; width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
+.priority-chip--high { color: var(--coral-deep); background: var(--coral); } .priority-chip--medium { color: var(--amber-deep); background: var(--amber); } .priority-chip--low { color: #5d79a0; background: #e1eaf7; }
+.status-chip--pending { color: #a46f1e; background: #fff0d7; } .status-chip--progress { color: #625c9b; background: var(--lavender); } .status-chip--resolved { color: var(--mint-deep); background: var(--mint); }
+.status-select { border: 0; padding: 5px 4px 5px 7px; border-radius: 6px; color: inherit; background: transparent; font-size: 9px; font-weight: 700; cursor: pointer; }
+.status-select:focus { outline: 2px solid rgba(63,141,111,.25); }
+.row-action { border: 0; color: #aab3bb; background: transparent; font-size: 16px; }
+.row-action:hover { color: var(--navy); }
+.panel-footer { display: flex; justify-content: space-between; align-items: center; gap: 15px; padding: 15px 10px 17px; color: #9ba5ae; font-size: 10px; }
+.panel-footer .text-button { color: var(--mint-deep); }
+.empty-state { padding: 52px 20px; border-top: 1px solid #e9ebe7; text-align: center; }
+.empty-state__mark { display: inline-flex; align-items: center; justify-content: center; width: 38px; height: 38px; border-radius: 50%; color: #8191a2; background: #edf1f4; font-size: 24px; }
+.empty-state h3 { margin: 13px 0 6px; color: var(--navy); font: 600 18px "Space Grotesk", sans-serif; letter-spacing: -.04em; }
+.empty-state p { margin: 0 0 15px; color: var(--muted); font-size: 12px; }
+.quick-panel { display: flex; flex-direction: column; min-height: 100%; padding: 25px 25px 22px; overflow: hidden; border-radius: var(--radius); color: var(--white); background: var(--navy); position: relative; }
+.quick-panel::after { content: ""; position: absolute; right: -105px; bottom: -125px; width: 285px; height: 285px; border: 1px solid rgba(199,242,221,.19); border-radius: 50%; box-shadow: 0 0 0 32px rgba(199,242,221,.035), 0 0 0 64px rgba(199,242,221,.03); }
+.quick-panel__top { display: flex; justify-content: space-between; align-items: center; position: relative; z-index: 1; }
+.quick-panel__arrow { color: var(--mint); font-size: 20px; }
+.quick-panel h2 { position: relative; z-index: 1; margin: 54px 0 15px; font: 600 30px/1.03 "Space Grotesk", sans-serif; letter-spacing: -.075em; }
+.quick-panel p { position: relative; z-index: 1; max-width: 240px; margin: 0; color: rgba(255,255,255,.64); font-size: 12px; line-height: 1.55; }
+.quick-panel .button { position: relative; z-index: 1; align-self: flex-start; margin-top: auto; }
+.quick-panel__footer { position: relative; z-index: 1; display: flex; align-items: center; gap: 8px; margin-top: 21px; color: rgba(255,255,255,.45); font-size: 9px; }
+.quick-panel__line { display: inline-block; width: 20px; height: 1px; background: var(--mint); }
+.insights-section { margin-top: 48px; }
+.section-heading { align-items: flex-end; margin-bottom: 18px; }
+.section-heading__note { color: #9aa5ae; font-size: 10px; }
+.insights-grid { display: grid; grid-template-columns: 1fr 1fr .78fr; gap: 14px; }
+.insight-card { min-height: 230px; padding: 21px 22px; border: 1px solid #e5e7e2; border-radius: var(--radius); background: var(--paper); }
+.insight-card h3 { margin: 0; color: var(--navy); font: 600 15px "Space Grotesk", sans-serif; letter-spacing: -.04em; }
+.insight-card__meta { color: #a0a9b2; font-size: 9px; }
+.donut-wrap { display: flex; align-items: center; justify-content: center; gap: 24px; min-height: 165px; }
+.donut-chart { display: flex; align-items: center; justify-content: center; width: 128px; height: 128px; border-radius: 50%; background: conic-gradient(var(--mint-deep) 0deg 150deg, #736aa9 150deg 240deg, #c4882b 240deg 360deg); position: relative; }
+.donut-chart::before { content: ""; position: absolute; inset: 14px; border-radius: 50%; background: var(--paper); }
+.donut-chart div { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; gap: 3px; }
+.donut-chart strong { color: var(--navy); font: 600 27px "Space Grotesk", sans-serif; letter-spacing: -.08em; }
+.donut-chart span { color: #9aa3ac; font-size: 9px; }
+.legend-list { display: flex; flex-direction: column; gap: 13px; }
+.legend-item { display: grid; grid-template-columns: 8px auto; column-gap: 7px; align-items: center; color: #8b96a2; font-size: 10px; }
+.legend-item i { width: 7px; height: 7px; border-radius: 50%; grid-row: span 2; }
+.legend-item strong { color: var(--ink); font-size: 12px; }
+.category-bars { display: flex; flex-direction: column; gap: 15px; margin-top: 26px; }
+.category-bar { display: grid; grid-template-columns: 80px 1fr 25px; gap: 10px; align-items: center; color: #8f99a5; font-size: 10px; }
+.category-bar__track { height: 7px; overflow: hidden; border-radius: 5px; background: #edf0ed; }
+.category-bar__track span { display: block; height: 100%; border-radius: inherit; background: var(--navy); }
+.category-bar:nth-child(2) .category-bar__track span { background: #8e86c0; } .category-bar:nth-child(3) .category-bar__track span { background: #d69c46; } .category-bar:nth-child(4) .category-bar__track span { background: #69ae89; } .category-bar:nth-child(5) .category-bar__track span { background: #db8478; }
+.category-bar strong { color: var(--ink); text-align: right; font-size: 10px; }
+.insight-card--quote { display: flex; flex-direction: column; justify-content: center; color: var(--white); background: var(--navy); }
+.quote-mark { color: var(--mint); font: 600 48px/ .7 Georgia, serif; }
+.insight-card--quote p { margin: 13px 0 22px; font: 500 18px/1.23 "Space Grotesk", sans-serif; letter-spacing: -.045em; }
+.quote-line { display: flex; align-items: center; gap: 8px; color: rgba(255,255,255,.52); font-size: 9px; }
+.quote-line span { width: 23px; height: 1px; background: var(--mint); }
+.app-footer { display: flex; justify-content: space-between; gap: 20px; padding: 30px 2px 0; color: #a3acb5; font-size: 10px; }
+.app-footer .text-button { color: #779a87; font-size: 10px; font-weight: 600; }
+
+.modal-backdrop { position: fixed; z-index: 40; inset: 0; background: rgba(14,32,61,.47); backdrop-filter: blur(3px); }
+.modal { position: fixed; z-index: 41; top: 50%; left: 50%; width: min(560px, calc(100% - 32px)); max-height: calc(100vh - 32px); overflow: auto; border-radius: 18px; background: var(--paper); box-shadow: 0 25px 70px rgba(14,32,61,.22); transform: translate(-50%, -50%); }
+.modal--detail { width: min(620px, calc(100% - 32px)); }
+.modal__head { display: flex; align-items: flex-start; justify-content: space-between; gap: 20px; padding: 25px 27px 17px; border-bottom: 1px solid var(--line); }
+.modal__head h2 { margin: 8px 0 0; color: var(--navy); font: 600 27px/1 "Space Grotesk", sans-serif; letter-spacing: -.07em; }
+.icon-button { width: 32px; height: 32px; padding: 0; border: 0; border-radius: 8px; color: #8995a2; background: transparent; font-size: 20px; }
+.icon-button:hover { color: var(--navy); background: #edf1ee; }
+.modal__body { padding: 24px 27px 27px; }
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 17px 13px; }
+.form-field { display: flex; flex-direction: column; gap: 8px; }
+.form-field--full { grid-column: 1 / -1; }
+.form-field select { appearance: auto; }
+.form-field textarea { resize: vertical; min-height: 100px; }
+.modal__actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 25px; padding-top: 18px; border-top: 1px solid var(--line); }
+.detail-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 20px; padding-bottom: 22px; }
+.detail-title { margin: 0 0 8px; color: var(--navy); font: 600 23px/1.08 "Space Grotesk", sans-serif; letter-spacing: -.06em; }
+.detail-id { color: #9aa4ae; font-size: 11px; }
+.detail-tags { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 7px; }
+.detail-description { margin: 0 0 20px; padding: 15px 16px; border-radius: 10px; color: #5f6d7d; background: #f2f5f2; font-size: 12px; line-height: 1.6; }
+.detail-meta { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; padding-top: 18px; border-top: 1px solid var(--line); }
+.detail-meta div { display: flex; flex-direction: column; gap: 5px; }
+.detail-meta span { color: #9aa5af; font-size: 9px; text-transform: uppercase; letter-spacing: .1em; }
+.detail-meta strong { color: var(--ink); font-size: 11px; }
+.detail-actions { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-top: 24px; }
+.detail-actions label { display: flex; align-items: center; gap: 8px; color: #798596; font-size: 10px; }
+.detail-actions select { padding: 9px 10px; border: 1px solid var(--line); border-radius: 8px; color: var(--ink); background: var(--white); font-size: 11px; }
+.toast-region { position: fixed; z-index: 60; top: 22px; right: 22px; display: flex; flex-direction: column; gap: 8px; }
+.toast { display: flex; align-items: center; gap: 9px; min-width: 230px; padding: 12px 14px; border: 1px solid #dceee4; border-radius: 10px; color: var(--ink); background: var(--white); box-shadow: 0 13px 34px rgba(14,32,61,.16); font-size: 11px; animation: toastIn .24s ease both; }
+.toast::before { content: "✓"; display: inline-flex; align-items: center; justify-content: center; width: 19px; height: 19px; border-radius: 50%; color: var(--mint-deep); background: var(--mint); font-size: 11px; font-weight: 700; }
+@keyframes toastIn { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
+
+@media (max-width: 1160px) {
+  .login-view { grid-template-columns: .84fr 1.16fr; }
+  .login-art { padding-left: 55px; padding-right: 45px; }
+  .metrics-grid { grid-template-columns: repeat(2, 1fr); }
+  .workspace-grid { grid-template-columns: 1fr; }
+  .quick-panel { min-height: 260px; }
+  .quick-panel h2 { margin-top: 35px; }
+  .quick-panel .button { margin-top: 27px; }
+  .quick-panel__footer { margin-top: auto; }
+  .insights-grid { grid-template-columns: 1fr 1fr; }
+  .insight-card--quote { min-height: 190px; }
+}
+@media (max-width: 850px) {
+  .login-view { display: block; }
+  .login-art { min-height: 270px; padding: 26px 30px; }
+  .login-art__copy { margin: 38px 0 0; transform: none; }
+  .login-art__copy h1 { margin: 11px 0; font-size: 40px; }
+  .login-art__copy p, .login-art__footer { display: none; }
+  .login-panel { min-height: calc(100vh - 270px); padding: 45px 30px; }
+  .login-heading { margin-top: 42px; }
+  .login-panel__note { margin-top: 40px; }
+  .sidebar { width: 260px; transform: translateX(-101%); transition: transform .25s ease; box-shadow: 12px 0 30px rgba(22,43,77,.13); }
+  .sidebar.is-open { transform: translateX(0); }
+  .sidebar-close { display: inline-flex; }
+  .app-shell { width: 100%; margin-left: 0; }
+  .menu-toggle { display: inline-flex; }
+  .topbar { padding: 0 25px; }
+  .topbar-date { display: none; }
+  .content { padding: 42px 25px 25px; }
+}
+@media (max-width: 640px) {
+  .topbar { height: 72px; }
+  .topbar__left { gap: 8px; }
+  .topbar__right { gap: 9px; }
+  .topbar__right .avatar { display: none; }
+  .breadcrumb { font-size: 10px; }
+  .breadcrumb span:first-child { display: none; }
+  .topbar .button--compact { min-height: 33px; padding: 0 10px; font-size: 10px; }
+  .content { padding: 34px 15px 20px; }
+  .hero-section { display: block; margin-bottom: 27px; }
+  .hero-section h1 { font-size: 43px; }
+  .hero-note { margin-top: 25px; }
+  .metrics-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .metric-card { min-height: 132px; padding: 14px; border-radius: 14px; }
+  .metric-number { margin: 15px 0 13px; font-size: 31px; }
+  .metric-label { font-size: 9px; }
+  .metric-card__foot { font-size: 8px; }
+  .signal-strip { flex-wrap: wrap; gap: 13px; padding: 14px; margin-bottom: 27px; }
+  .signal-strip__label { min-width: 100%; }
+  .signal-strip__bar { order: 3; flex-basis: 100%; }
+  .signal-strip__score { min-width: auto; }
+  .signal-strip__spark { margin-left: auto; }
+  .issues-panel { padding: 19px 13px 0; border-radius: 14px; }
+  .panel-heading h2, .section-heading h2 { font-size: 21px; }
+  .panel-heading .text-button { font-size: 10px; }
+  .filter-row { flex-wrap: wrap; margin: 19px 0 13px; }
+  .search-field { flex-basis: 100%; }
+  .select-wrap { flex: 1; }
+  .select-wrap select { width: 100%; }
+  .issue-list-head { display: none; }
+  .issue-row { grid-template-columns: 1fr auto; gap: 11px; padding: 13px 8px; }
+  .issue-row > :nth-child(2) { grid-column: 1; padding-left: 42px; }
+  .issue-row > :nth-child(3) { grid-column: 2; grid-row: 1; }
+  .issue-row > :nth-child(4) { grid-column: 1; grid-row: 3; justify-self: start; margin-left: 42px; }
+  .issue-row > :nth-child(5) { grid-column: 2; grid-row: 3; justify-self: end; }
+  .issue-row > :nth-child(6) { display: none; }
+  .panel-footer { flex-wrap: wrap; padding-left: 7px; padding-right: 7px; }
+  .quick-panel { min-height: 300px; padding: 22px; border-radius: 14px; }
+  .quick-panel h2 { margin-top: 39px; font-size: 27px; }
+  .insights-section { margin-top: 34px; }
+  .insights-grid { grid-template-columns: 1fr; gap: 9px; }
+  .insight-card { min-height: auto; padding: 19px; border-radius: 14px; }
+  .donut-wrap { justify-content: flex-start; }
+  .insight-card--quote { min-height: 200px; }
+  .app-footer { flex-direction: column; gap: 7px; padding-top: 23px; font-size: 9px; }
+  .modal { width: calc(100% - 20px); }
+  .modal__head, .modal__body { padding-left: 19px; padding-right: 19px; }
+  .form-grid { grid-template-columns: 1fr; gap: 14px; }
+  .form-field--full { grid-column: auto; }
+  .detail-meta { grid-template-columns: 1fr 1fr; }
+  .detail-top { display: block; }
+  .detail-tags { justify-content: flex-start; margin-top: 13px; }
+  .detail-actions { align-items: stretch; flex-direction: column; }
+  .detail-actions label { justify-content: space-between; }
+  .detail-actions select { flex: 1; }
+  .toast-region { top: 12px; right: 12px; left: 12px; }
+  .toast { min-width: 0; }
+}
+
+:root { color-scheme: light; }
+html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+body { padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
+
+.metric-card[data-metric] { cursor: pointer; transition: transform .18s ease, box-shadow .18s ease; }
+.metric-card[data-metric]:hover { transform: translateY(-3px); box-shadow: 0 14px 28px rgba(22,43,77,.1); }
+.metric-card.is-selected { outline: 2px solid var(--navy); outline-offset: 2px; }
+.metric-card:focus-visible, .category-bar:focus-visible { outline: 3px solid rgba(63,141,111,.5); outline-offset: 2px; }
+.category-bar { cursor: pointer; border-radius: 6px; padding: 3px 4px; margin: -3px -4px; transition: background .16s; }
+.category-bar:hover { background: #f1f5f1; }
+.category-bar.is-selected { background: #e6f3ea; color: var(--navy); font-weight: 700; }
+.toast { justify-content: space-between; }
+.toast-action { margin-left: auto; padding: 4px 9px; border: 1px solid var(--navy); border-radius: 6px; color: var(--navy); background: transparent; font-size: 11px; font-weight: 700; }
+.toast-action:hover { color: var(--white); background: var(--navy); }
+.detail-btns { display: flex; gap: 8px; }
+@media (prefers-reduced-motion: reduce) { .metric-card[data-metric]:hover { transform: none; } }
+
+.sidebar { overflow-y: auto; }
+.theme-picker { margin: 0 7px 16px; }
+.theme-label { margin-bottom: 9px; color: #a8b0b9; font-size: 9px; font-weight: 700; letter-spacing: .13em; text-transform: uppercase; }
+.swatches { display: flex; gap: 9px; }
+.swatch { width: 26px; height: 26px; padding: 0; border: 2px solid #cfd6df; border-radius: 50%; background: var(--sw); transition: transform .16s; }
+.swatch:hover { transform: scale(1.12); }
+.swatch[aria-pressed="true"] { border-color: var(--mint-deep); box-shadow: 0 0 0 3px rgba(52,131,98,.25); }
+.contact-number { display: flex; flex-direction: column; gap: 4px; margin-bottom: 20px; padding: 16px; border-radius: 12px; background: var(--mint); color: #162b4d; }
+.contact-number span { font-size: 11px; color: #3f6f58; }
+.contact-number strong { font: 700 30px/1 "Space Grotesk", sans-serif; letter-spacing: -.04em; }
+#contact-sms, #contact-call { text-decoration: none; }
+html[data-theme="mint"] { --sand: #e6f4ec; --paper: #f3fbf6; }
+html[data-theme="sky"] { --sand: #e5eef9; --paper: #f3f8fd; }
+html[data-theme="lilac"] { --sand: #eeeaf9; --paper: #f7f5fd; }
+html[data-theme="night"] { color-scheme: dark; --sand: #0d1626; --paper: #121e33; --white: #182742; --ink: #dbe4f3; --muted: #93a1b8; --muted-dark: #aab6ca; --line: #27364f; --navy: #e7eefc; --navy-deep: #0a1426; }
+html[data-theme="night"] .login-art, html[data-theme="night"] .metric-card--dark, html[data-theme="night"] .quick-panel, html[data-theme="night"] .insight-card--quote, html[data-theme="night"] .button--primary, html[data-theme="night"] .brand--dark .brand__mark { background: #1f3b6e; }
+html[data-theme="night"] .button--primary:hover { background: #2a4b88; }
+html[data-theme="night"] .metric-card--dark { border-color: #1f3b6e; }
+html[data-theme="night"] .brand--light .brand__mark::before { background: #162b4d; }
+html[data-theme="night"] .side-tip, html[data-theme="night"] .button--light, html[data-theme="night"] .avatar, html[data-theme="night"] .metric-icon--light, html[data-theme="night"] .issue-symbol--furniture, html[data-theme="night"] .contact-number { color: #162b4d; }
+html[data-theme="night"] .nav-item:hover, html[data-theme="night"] .icon-button:hover { background: #1a2a45; }
+html[data-theme="night"] .nav-item.is-active, html[data-theme="night"] .category-bar.is-selected { background: #1c3a2e; color: #cdeedd; }
+html[data-theme="night"] .topbar { background: rgba(18,30,51,.85); border-color: var(--line); }
+html[data-theme="night"] .sidebar, html[data-theme="night"] .metric-card, html[data-theme="night"] .insight-card, html[data-theme="night"] .panel-card, html[data-theme="night"] .toast { border-color: var(--line); }
+html[data-theme="night"] .metric-card--mint { background: #15302a; border-color: #1f4a3c; }
+html[data-theme="night"] .signal-strip { background: #14302a; border-color: #1f4a3c; }
+html[data-theme="night"] .signal-strip__bar { background: #244b3d; }
+html[data-theme="night"] .issue-row:hover, html[data-theme="night"] .category-bar:hover { background: #17253f; }
+html[data-theme="night"] .issue-list, html[data-theme="night"] .issue-row { border-color: #1b2a44; }
+html[data-theme="night"] .demo-access, html[data-theme="night"] .detail-description { background: #16233b; border-color: var(--line); color: #b9c4d8; }
+html[data-theme="night"] .category-bar__track { background: #223350; }
+
+.auth-tabs { display: flex; gap: 4px; margin-bottom: 22px; padding: 4px; border-radius: 10px; background: #eceee9; }
+.auth-tab { flex: 1; padding: 10px; border: 0; border-radius: 7px; color: var(--muted-dark); background: transparent; font-size: 12px; font-weight: 700; transition: background .18s, color .18s; }
+.auth-tab[aria-selected="true"] { color: var(--navy); background: var(--white); box-shadow: 0 2px 8px rgba(22,43,77,.08); }
+html[data-theme="night"] .auth-tabs { background: #16233b; }
+.login-heading { margin-bottom: 26px; }
+
+.google-btn { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; min-height: 46px; margin-bottom: 14px; border: 1px solid #d8e0ea; border-radius: 10px; color: var(--ink); background: var(--white); font-size: 13px; font-weight: 700; transition: box-shadow .18s, border-color .18s; }
+.google-btn:hover { border-color: var(--navy); box-shadow: 0 6px 16px rgba(22,43,77,.1); }
+.or-divider { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; color: #a1a9b2; font-size: 10px; }
+.or-divider::before, .or-divider::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+.google-note { margin: 0 0 18px; padding: 12px 14px; border-radius: 10px; color: #7a5a1a; background: #fff3d9; font-size: 12px; line-height: 1.5; }
+.sla-badge { margin-left: 6px; padding: 2px 6px; border-radius: 5px; color: var(--coral-deep); background: var(--coral); font-size: 9px; font-style: normal; font-weight: 700; }
+.detail-extra { margin: 20px 0 0; padding-top: 18px; border-top: 1px solid var(--line); }
+.detail-assign { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.detail-assign label { display: flex; align-items: center; gap: 8px; color: #798596; font-size: 11px; }
+.detail-assign select { padding: 8px 10px; border: 1px solid var(--line); border-radius: 8px; color: var(--ink); background: var(--white); font-size: 11px; }
+.sla-line { color: var(--mint-deep); font-size: 11px; font-weight: 700; }
+.sla-line.sla--late { color: var(--coral-deep); }
+.timeline-title { margin: 18px 0 8px; color: var(--navy); font: 600 13px "Space Grotesk", sans-serif; }
+.timeline { max-height: 150px; margin: 0; padding: 0 0 0 14px; overflow: auto; border-left: 2px solid var(--line); list-style: none; }
+.timeline li { display: flex; gap: 12px; padding: 5px 0; font-size: 11px; color: var(--ink); }
+.timeline time { flex: 0 0 92px; color: #98a2ad; }
+.note-row { display: flex; gap: 8px; margin-top: 12px; }
+.note-row input { flex: 1; min-width: 0; padding: 9px 11px; border: 1px solid var(--line); border-radius: 8px; color: var(--ink); background: var(--white); font-size: 12px; }
+.insight-card--wide { grid-column: 1 / -1; min-height: 0; }
+.team-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 12px 28px; margin-top: 18px; }
+.team-row { display: grid; grid-template-columns: 130px 1fr 22px 70px; gap: 10px; align-items: center; color: #8f99a5; font-size: 10px; }
+.team-row strong { color: var(--ink); text-align: right; }
+@media (max-width: 640px) { .team-row { grid-template-columns: 110px 1fr 20px 62px; } .timeline time { flex-basis: 76px; } }
+
+.help-block { margin-top: 22px; padding-top: 18px; border-top: 1px solid var(--line); }
+.help-block h3 { margin: 0 0 8px; color: var(--navy); font: 600 15px "Space Grotesk", sans-serif; }
+.help-block details { border-bottom: 1px solid var(--line); padding: 10px 0; }
+.help-block summary { cursor: pointer; color: var(--ink); font-size: 12px; font-weight: 700; }
+.help-block details p { margin: 8px 0 0; color: var(--muted); font-size: 12px; line-height: 1.55; }
+.about-lead { margin: 0 0 18px; color: var(--muted-dark); font-size: 13px; line-height: 1.65; }
+.about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.about-grid div { display: flex; flex-direction: column; gap: 4px; padding: 13px; border: 1px solid var(--line); border-radius: 10px; }
+.about-grid strong { color: var(--navy); font-size: 12px; }
+.about-grid span { color: var(--muted); font-size: 11px; line-height: 1.45; }
+.about-meta { display: flex; flex-direction: column; gap: 4px; margin-top: 16px; color: #98a2ad; font-size: 10px; }
+@media (max-width: 640px) { .about-grid { grid-template-columns: 1fr; } }
+
+</style>
+  </head>
+  <body>
+    <div id="toast-region" class="toast-region" aria-live="polite" aria-atomic="true"></div>
+
+    <main id="login-view" class="login-view">
+      <section class="login-art" aria-label="Fixlit introduction">
+        <div class="login-art__topline">
+          <div class="brand brand--light"><span class="brand__mark" aria-hidden="true"><i></i></span><span>fixlit</span></div>
+          <span class="micro-label">campus operations</span>
+        </div>
+        <div class="login-art__copy">
+          <span class="eyebrow eyebrow--light">01 / keep things moving</span>
+          <h1>Good fixes<br /><em>start with a clear signal.</em></h1>
+          <p>One calm command centre for the people who keep every classroom, corridor and campus corner working.</p>
+        </div>
+        <div class="login-art__footer">
+          <span>Built for the people behind the scenes.</span>
+          <span class="art-dot" aria-hidden="true"></span>
+          <span>Admin access only</span>
+        </div>
+      </section>
+
+      <section class="login-panel">
+        <div class="login-panel__inner">
+          <div class="brand brand--dark"><span class="brand__mark" aria-hidden="true"><i></i></span><span>fixlit</span></div>
+          <div class="login-heading">
+            <span class="eyebrow">admin workspace</span>
+            <h2>Welcome back.</h2>
+            <p>Sign in to see what needs attention across campus.</p>
+          </div>
+          <div class="auth-tabs" role="tablist" aria-label="Account"><button type="button" class="auth-tab" role="tab" data-mode="signin" aria-selected="true">Sign in</button><button type="button" class="auth-tab" role="tab" data-mode="signup" aria-selected="false">Create account</button></div>
+          <button type="button" id="google-btn" class="google-btn"><svg width="18" height="18" viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9.1 3.6l6.8-6.8C35.8 2.4 30.3 0 24 0 14.6 0 6.5 5.4 2.6 13.2l7.9 6.1C12.4 13.6 17.7 9.5 24 9.5z"/><path fill="#4285F4" d="M46.5 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.7c-.6 3-2.3 5.5-4.8 7.2l7.5 5.8c4.4-4.1 7.1-10.1 7.1-17.5z"/><path fill="#FBBC05" d="M10.5 28.7c-.5-1.4-.8-3-.8-4.7s.3-3.2.8-4.7l-7.9-6.1C.9 16.4 0 20.1 0 24s.9 7.6 2.6 10.8l7.9-6.1z"/><path fill="#34A853" d="M24 48c6.5 0 11.9-2.1 15.9-5.8l-7.5-5.8c-2.1 1.4-4.9 2.3-8.4 2.3-6.3 0-11.6-4.1-13.5-9.8l-7.9 6.1C6.5 42.6 14.6 48 24 48z"/></svg><span>Continue with Google</span></button><div class="or-divider"><span>or use email</span></div>
+          <form id="login-form" class="form-stack">
+            <label class="field-label" for="login-email">Admin email</label>
+            <div class="input-wrap"><span class="input-icon" aria-hidden="true">@</span><input id="login-email" name="email" type="email" autocomplete="username" placeholder="admin@fixlit.edu" required /></div>
+            <label class="field-label" for="login-password">Password</label>
+            <div class="input-wrap"><span class="input-icon" aria-hidden="true">*</span><input id="login-password" name="password" type="password" autocomplete="current-password" placeholder="Enter your password" required /><button type="button" class="password-toggle" aria-label="Show password">show</button></div>
+            <button class="button button--primary button--wide" type="submit"><span>Enter workspace</span><span class="button-arrow" aria-hidden="true">↗</span></button>
+            <p id="login-error" class="form-error" role="alert"></p>
+          </form>
+          <form id="signup-form" class="form-stack is-hidden">
+            <label class="field-label" for="signup-name">Full name</label>
+            <div class="input-wrap"><span class="input-icon" aria-hidden="true">A</span><input id="signup-name" type="text" autocomplete="name" placeholder="Your name" required /></div>
+            <label class="field-label" for="signup-email">Email</label>
+            <div class="input-wrap"><span class="input-icon" aria-hidden="true">@</span><input id="signup-email" type="email" autocomplete="username" placeholder="you@fixlit.edu" required /></div>
+            <label class="field-label" for="signup-password">Password</label>
+            <div class="input-wrap"><span class="input-icon" aria-hidden="true">*</span><input id="signup-password" type="password" autocomplete="new-password" placeholder="At least 6 characters" minlength="6" required /></div>
+            <label class="field-label" for="signup-confirm">Confirm password</label>
+            <div class="input-wrap"><span class="input-icon" aria-hidden="true">*</span><input id="signup-confirm" type="password" autocomplete="new-password" placeholder="Repeat your password" required /></div>
+            <button class="button button--primary button--wide" type="submit"><span>Create account</span><span class="button-arrow" aria-hidden="true">↗</span></button>
+            <p id="signup-error" class="form-error" role="alert"></p>
+          </form>
+          <div class="demo-access"><span class="demo-access__key">DEMO ACCESS</span><div><strong>admin@fixlit.edu</strong><span>password: fixlit2026</span></div><button id="fill-demo" class="text-button" type="button">Use demo</button></div>
+          <div class="login-panel__note"><button class="text-button" type="button" data-action="about">About Fixlit</button><span>·</span><span class="lock-dot" aria-hidden="true"></span><span>Restricted workspace · authorised staff only</span></div>
+        </div>
+      </section>
+    </main>
+
+    <main id="app-view" class="app-view is-hidden">
+      <aside class="sidebar" id="sidebar">
+        <div class="sidebar__head">
+          <div class="brand brand--dark"><span class="brand__mark" aria-hidden="true"><i></i></span><span>fixlit</span></div>
+          <button id="sidebar-close" class="icon-button sidebar-close" type="button" aria-label="Close navigation">×</button>
+        </div>
+        <div class="sidebar__context"><span class="status-pulse" aria-hidden="true"></span><span>Live campus view</span><span class="context-line"></span><span>04 Oct 2026</span></div>
+        <nav class="nav-list" aria-label="Primary navigation">
+          <button class="nav-item is-active" type="button" data-scroll-target="overview"><span class="nav-icon">⌂</span><span>Overview</span><span class="nav-count">4</span></button>
+          <button class="nav-item" type="button" data-scroll-target="issues"><span class="nav-icon nav-icon--list">≡</span><span>All issues</span><span class="nav-count" id="sidebar-total">12</span></button>
+          <button class="nav-item" type="button" data-scroll-target="insights"><span class="nav-icon nav-icon--chart">↗</span><span>Insights</span></button>
+        </nav>
+        <div class="sidebar__section-label">Workspace</div>
+        <nav class="nav-list nav-list--secondary" aria-label="Workspace navigation">
+          <button class="nav-item" type="button" data-action="new-issue"><span class="nav-icon">+</span><span>Report an issue</span></button>
+          <button class="nav-item" type="button" data-action="contact"><span class="nav-icon">?</span><span>Help &amp; contact</span></button>
+          <button class="nav-item" type="button" data-action="about"><span class="nav-icon">i</span><span>About Fixlit</span></button>
+        </nav>
+        <div class="sidebar__bottom">
+          <div class="theme-picker"><div class="theme-label">Background</div><div class="swatches" role="group" aria-label="Background theme"><button type="button" class="swatch" data-theme-choice="sand" style="--sw:#f5f4ef" aria-label="Sand background" title="Sand" aria-pressed="false"></button><button type="button" class="swatch" data-theme-choice="mint" style="--sw:#e6f4ec" aria-label="Mint background" title="Mint" aria-pressed="false"></button><button type="button" class="swatch" data-theme-choice="sky" style="--sw:#e5eef9" aria-label="Sky background" title="Sky" aria-pressed="false"></button><button type="button" class="swatch" data-theme-choice="lilac" style="--sw:#eeeaf9" aria-label="Lilac background" title="Lilac" aria-pressed="false"></button><button type="button" class="swatch" data-theme-choice="night" style="--sw:#0d1626" aria-label="Night background" title="Night" aria-pressed="false"></button></div></div>
+          <div class="side-tip"><span class="side-tip__mark">✦</span><div><strong>Small signal,<br />big difference.</strong><span>Every report gets a next step.</span></div></div>
+          <button id="logout-button" class="logout-button" type="button"><span class="nav-icon">↪</span><span>Sign out</span></button>
+          <div class="account-mini"><span class="avatar avatar--small">AM</span><div><strong>Alex Morgan</strong><span>Campus admin</span></div><span class="account-more">···</span></div>
+        </div>
+      </aside>
+
+      <div class="app-shell">
+        <header class="topbar">
+          <div class="topbar__left"><button id="menu-toggle" class="icon-button menu-toggle" type="button" aria-label="Open navigation">☰</button><div class="breadcrumb"><span>Workspace</span><span class="breadcrumb__slash">/</span><strong>Overview</strong></div></div>
+          <div class="topbar__right"><div class="topbar-date"><span class="status-pulse" aria-hidden="true"></span><span>Campus operations live</span></div><button id="header-new-issue" class="button button--secondary button--compact" type="button"><span>+</span> New report</button><button class="icon-button notification-button" type="button" aria-label="Notifications"><span class="notification-dot"></span>♧</button><span class="avatar">AM</span></div>
+        </header>
+
+        <div class="content">
+          <section id="overview" class="hero-section section-anchor">
+            <div><span class="eyebrow">sunday · 04 october 2026</span><h1>Keep the campus<br /><em>moving.</em></h1><p class="hero-subtitle">Good morning, Alex. Here’s the signal from around campus today.</p></div>
+            <div class="hero-note"><span class="hero-note__number">01</span><span class="hero-note__line"></span><div><strong>Operations note</strong><p>Three issues need a human touch this morning.</p></div></div>
+          </section>
+
+          <section class="metrics-grid" aria-label="Issue summary">
+            <article class="metric-card metric-card--dark" data-metric="all"><div class="metric-card__top"><span class="metric-label">Total reports</span><span class="metric-icon metric-icon--light">↗</span></div><strong id="metric-total" class="metric-number">12</strong><div class="metric-card__foot"><span class="metric-trend metric-trend--light">↑ 18%</span><span>vs last month</span></div></article>
+            <article class="metric-card" data-metric="Pending"><div class="metric-card__top"><span class="metric-label">Needs attention</span><span class="metric-icon metric-icon--coral">!</span></div><strong id="metric-open" class="metric-number">4</strong><div class="metric-card__foot"><span class="metric-trend">↓ 8%</span><span>vs last month</span></div></article>
+            <article class="metric-card" data-metric="In Progress"><div class="metric-card__top"><span class="metric-label">In progress</span><span class="metric-icon metric-icon--amber">↻</span></div><strong id="metric-progress" class="metric-number">3</strong><div class="metric-card__foot"><span class="metric-trend metric-trend--amber">↑ 12%</span><span>vs last month</span></div></article>
+            <article class="metric-card metric-card--mint" data-metric="Resolved"><div class="metric-card__top"><span class="metric-label">Resolved this month</span><span class="metric-icon metric-icon--green">✓</span></div><strong id="metric-resolved" class="metric-number">5</strong><div class="metric-card__foot"><span class="metric-trend metric-trend--green">↑ 24%</span><span>vs last month</span></div></article>
+          </section>
+
+          <section class="signal-strip" aria-label="Resolution signal"><div class="signal-strip__label"><span class="signal-mark">✦</span><div><strong>Resolution signal</strong><span>Healthy pace this week</span></div></div><div class="signal-strip__bar"><span style="width: 72%"></span></div><div class="signal-strip__score"><strong id="resolution-score">72%</strong><span>of issues resolved in 7 days</span></div><div class="signal-strip__spark" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></section>
+
+          <section id="issues" class="workspace-grid section-anchor">
+            <div class="issues-panel panel-card">
+              <div class="panel-heading"><div><span class="eyebrow">02 / live queue</span><h2>Issues needing a next step</h2></div><button id="clear-filters" class="text-button" type="button">Clear filters</button></div>
+              <div class="filter-row"><div class="search-field"><span aria-hidden="true">⌕</span><input id="search-input" type="search" placeholder="Search by issue, ID or location" aria-label="Search issues" /></div><label class="select-wrap"><span class="sr-only">Filter status</span><select id="status-filter"><option value="all">All statuses</option><option value="Pending">Pending</option><option value="In Progress">In Progress</option><option value="Resolved">Resolved</option><option value="Overdue">Overdue (past due date)</option></select></label><label class="select-wrap"><span class="sr-only">Filter priority</span><select id="priority-filter"><option value="all">All priorities</option><option value="High">High priority</option><option value="Medium">Medium priority</option><option value="Low">Low priority</option></select></label><label class="select-wrap"><span class="sr-only">Sort</span><select id="sort-filter"><option value="newest">Newest first</option><option value="priority">Highest priority</option></select></label></div>
+              <div class="issue-list-head"><span>Issue</span><span>Location</span><span>Priority</span><span>Status</span><span>Reported</span><span class="sr-only">Actions</span></div>
+              <div id="issue-list" class="issue-list" aria-live="polite"></div>
+              <div id="empty-state" class="empty-state is-hidden"><span class="empty-state__mark">⌕</span><h3>No issues found</h3><p>Try a different search or clear the filters to see the full queue.</p><button id="empty-clear" class="button button--ghost" type="button">Show all issues</button></div>
+              <div class="panel-footer"><span id="issue-result-count">Showing 12 of 12 reports</span><button class="text-button" type="button" data-action="insights">View issue insights <span>↗</span></button></div>
+            </div>
+
+            <aside class="quick-panel">
+              <div class="quick-panel__top"><span class="eyebrow eyebrow--light">03 / quick action</span><span class="quick-panel__arrow">↗</span></div>
+              <h2>See something<br /><em>that needs care?</em></h2>
+              <p>Give the right person a clear starting point. Add a new campus report in under a minute.</p>
+              <button class="button button--light" type="button" data-action="new-issue"><span>Report an issue</span><span class="button-arrow">↗</span></button>
+              <div class="quick-panel__footer"><span class="quick-panel__line"></span><span>Fast to file · easy to follow</span></div>
+            </aside>
+          </section>
+
+          <section id="insights" class="insights-section section-anchor"><div class="section-heading"><div><span class="eyebrow">04 / a clearer picture</span><h2>Resolution at a glance</h2></div><span class="section-heading__note">Updated just now</span></div><div class="insights-grid"><article class="insight-card status-breakdown"><div class="insight-card__head"><h3>Workload by status</h3><span class="insight-card__meta">all reports</span></div><div class="donut-wrap"><div id="status-donut" class="donut-chart"><div><strong id="donut-center">12</strong><span>reports</span></div></div><div id="status-legend" class="legend-list"></div></div></article><article class="insight-card category-breakdown"><div class="insight-card__head"><h3>Reports by category</h3><span class="insight-card__meta">this month</span></div><div id="category-bars" class="category-bars"></div></article><article class="insight-card insight-card--quote"><span class="quote-mark">“</span><p>When a problem has a name, a place and a next step, it’s already halfway to being fixed.</p><div class="quote-line"><span></span><strong>Fixlit principle 01</strong></div></article><article class="insight-card insight-card--wide"><div class="insight-card__head"><h3>Team workload</h3><span class="insight-card__meta">open reports · overdue</span></div><div id="team-grid" class="team-grid"></div></article></div></section>
+          <footer class="app-footer"><span>Fixlit Admin · Campus maintenance reporting</span><span>Local demo data · <button class="text-button" type="button" data-action="contact">Need a hand?</button></span></footer>
+        </div>
+      </div>
+    </main>
+
+    <div id="modal-backdrop" class="modal-backdrop is-hidden"></div>
+    <section id="issue-modal" class="modal is-hidden" role="dialog" aria-modal="true" aria-labelledby="issue-modal-title">
+      <div class="modal__head"><div><span id="modal-kicker" class="eyebrow">new report</span><h2 id="issue-modal-title">Report an issue</h2></div><button class="icon-button modal-close" type="button" aria-label="Close dialog">×</button></div>
+      <form id="issue-form" class="modal__body"><div class="form-grid"><div class="form-field form-field--full"><label class="field-label" for="issue-title">Issue title</label><input id="issue-title" name="title" type="text" placeholder="e.g. Projector not working" required /></div><div class="form-field"><label class="field-label" for="issue-category">Category</label><select id="issue-category" name="category" required><option value="Furniture">Furniture</option><option value="Electrical">Electrical</option><option value="Water">Water</option><option value="Classroom">Classroom</option><option value="Safety">Safety</option><option value="Other">Other</option></select></div><div class="form-field"><label class="field-label" for="issue-location">Location</label><input id="issue-location" name="location" type="text" placeholder="e.g. Block B · Room 204" required /></div><div class="form-field"><label class="field-label" for="issue-priority">Priority</label><select id="issue-priority" name="priority" required><option value="High">High</option><option value="Medium" selected>Medium</option><option value="Low">Low</option></select></div><div class="form-field"><label class="field-label" for="issue-reporter">Reported by</label><input id="issue-reporter" name="reporter" type="text" placeholder="e.g. Facilities desk" /></div><div class="form-field form-field--full"><label class="field-label" for="issue-description">What needs attention?</label><textarea id="issue-description" name="description" rows="4" placeholder="Share a clear description so the right person can pick it up." required></textarea></div></div><div class="modal__actions"><button class="button button--ghost modal-cancel" type="button">Cancel</button><button class="button button--primary" type="submit"><span>Add to queue</span><span class="button-arrow">↗</span></button></div></form>
+    </section>
+
+    <section id="google-modal" class="modal is-hidden" role="dialog" aria-modal="true" aria-labelledby="google-title"><div class="modal__head"><div><span class="eyebrow">google sign-in · demo</span><h2 id="google-title">Choose a Google account</h2></div><button class="icon-button modal-close" type="button" aria-label="Close dialog">×</button></div><form id="google-form" class="modal__body"><p class="google-note">Demo only: this page cannot contact Google, so nothing is verified. Real Google sign-in needs a Google client ID and a server.</p><div class="form-grid"><div class="form-field form-field--full"><label class="field-label" for="google-name">Name</label><input id="google-name" type="text" placeholder="Your name" required /></div><div class="form-field form-field--full"><label class="field-label" for="google-email">Google email</label><input id="google-email" type="email" placeholder="you@gmail.com" required /></div></div><div class="modal__actions"><button class="button button--ghost modal-cancel" type="button">Cancel</button><button class="button button--primary" type="submit"><span>Continue</span></button></div></form></section>
+
+    <section id="about-modal" class="modal is-hidden" role="dialog" aria-modal="true" aria-labelledby="about-title"><div class="modal__head"><div><span class="eyebrow">about</span><h2 id="about-title">About Fixlit</h2></div><button class="icon-button modal-close" type="button" aria-label="Close dialog">×</button></div><div class="modal__body"><p class="about-lead">Fixlit is one shared place for campus maintenance. People report a problem, the right team picks it up, and everyone can see where it stands until it is fixed.</p><div class="about-grid"><div><strong>Submit complaints</strong><span>Report a problem with its category, description and location.</span></div><div><strong>Issue dashboard</strong><span>See every reported issue in one live queue.</span></div><div><strong>Priority levels</strong><span>Mark each report High, Medium or Low.</span></div><div><strong>Status updates</strong><span>Move reports between Pending, In Progress and Resolved.</span></div><div><strong>Search and filter</strong><span>Find complaints by keyword, status or priority.</span></div><div><strong>Resolution statistics</strong><span>Track totals, resolved issues and the resolution rate.</span></div></div>
+<div class="about-meta"><span>Version 1.0 (demo)</span><span>Data is saved in this browser only</span><span>Shortcuts: / search · n new report</span></div><div class="modal__actions"><button class="button button--ghost modal-cancel" type="button">Close</button><button class="button button--primary" type="button" id="about-help"><span>Help &amp; contact</span></button></div></div></section>
+
+    <section id="contact-modal" class="modal is-hidden" role="dialog" aria-modal="true" aria-labelledby="contact-title"><div class="modal__head"><div><span class="eyebrow">campus officials &amp; guidance</span><h2 id="contact-title">Help &amp; contact</h2></div><button class="icon-button modal-close" type="button" aria-label="Close dialog">×</button></div><div class="modal__body"><div class="contact-number"><span>Officials' phone</span><strong>95974 30380</strong></div><div class="form-grid"><div class="form-field form-field--full"><label class="field-label" for="contact-issue">About</label><select id="contact-issue"></select></div><div class="form-field form-field--full"><label class="field-label" for="contact-note">Add a note (optional)</label><textarea id="contact-note" rows="3" placeholder="e.g. Please send someone before 2 pm."></textarea></div></div><div class="modal__actions"><button class="button button--ghost" type="button" id="contact-copy">Copy number</button><a class="button button--secondary" id="contact-sms" href="sms:9597430380">Send text</a><a class="button button--primary" id="contact-call" href="tel:9597430380">Call now</a></div><div class="help-block"><h3>Quick help</h3>
+<details><summary>How do I report an issue?</summary><p>Choose New report at the top, or press n. Add a title, location and priority. The report is routed to the right team automatically.</p></details>
+<details><summary>How do I track an issue?</summary><p>Open an issue with the ⋯ button to see its status, assigned team, due date and activity log. You can also change the status straight from the list.</p></details>
+<details><summary>What does Overdue mean?</summary><p>An issue is overdue when it is still open after its due date: 1 day for High priority, 3 days for Medium and 7 days for Low.</p></details>
+<details><summary>How do I find an issue quickly?</summary><p>Press / to search by title, ID or location. Use the status, priority and sort menus, or click a summary card or category bar to filter.</p></details>
+<details><summary>When should I call the officials?</summary><p>Call for anything urgent or unsafe, like water leaks, broken locks or electrical faults. For routine problems, a report is enough.</p></details></div></div></section>
+
+    <section id="detail-modal" class="modal modal--detail is-hidden" role="dialog" aria-modal="true" aria-labelledby="detail-title"><div class="modal__head"><div><span id="detail-kicker" class="eyebrow">issue detail</span><h2 id="detail-title">Issue details</h2></div><button class="icon-button modal-close" type="button" aria-label="Close dialog">×</button></div><div id="detail-body" class="modal__body"></div></section>
+    <script>
+const STORAGE_KEY = "fixlit-issues-v1";
+const SESSION_KEY = "fixlit-admin-session";
+const DEMO_CREDENTIALS = { email: "admin@fixlit.edu", password: "fixlit2026" };
+
+const seedIssues = [
+  { id: "FX-1042", title: "Loose desk frames in seminar room", category: "Furniture", location: "Block A · Room 104", priority: "Medium", status: "In Progress", reporter: "Facilities desk", date: "04 Oct 2026", description: "Four desk frames are wobbling and need tightening before the afternoon session." },
+  { id: "FX-1041", title: "Water pooling near north stairwell", category: "Water", location: "North stairwell · Level 2", priority: "High", status: "Pending", reporter: "Maya Singh", date: "04 Oct 2026", description: "A small but persistent pool is forming after the morning clean. Please check the nearby pipework." },
+  { id: "FX-1040", title: "Projector lamp flickering", category: "Electrical", location: "Block B · Room 204", priority: "High", status: "In Progress", reporter: "Dr. Patel", date: "03 Oct 2026", description: "The projector flickers every few minutes and is hard to use for lectures." },
+  { id: "FX-1039", title: "Broken window latch", category: "Safety", location: "Library · East wing", priority: "High", status: "Pending", reporter: "Library team", date: "03 Oct 2026", description: "East wing window does not latch shut. The room needs to remain secure overnight." },
+  { id: "FX-1038", title: "Whiteboard surface needs replacement", category: "Classroom", location: "Block C · Room 301", priority: "Low", status: "Resolved", reporter: "Ravi Kumar", date: "02 Oct 2026", description: "The whiteboard has become difficult to clean and is leaving marks on new writing." },
+  { id: "FX-1037", title: "Ceiling light out near lab entrance", category: "Electrical", location: "Science lab · Entrance", priority: "Medium", status: "Resolved", reporter: "Lab assistant", date: "02 Oct 2026", description: "One ceiling light is out near the entrance; the remaining lights are working." },
+  { id: "FX-1036", title: "Chair legs need repair", category: "Furniture", location: "Block A · Room 112", priority: "Low", status: "Resolved", reporter: "Amir Hassan", date: "01 Oct 2026", description: "Two chairs have loose legs and should be repaired before the next tutorial." },
+  { id: "FX-1035", title: "Tap dripping in staff washroom", category: "Water", location: "Admin building · Level 1", priority: "Medium", status: "Resolved", reporter: "Admin office", date: "30 Sep 2026", description: "The cold tap is dripping steadily and leaving water around the basin." },
+  { id: "FX-1034", title: "Door closer too stiff", category: "Safety", location: "Block D · Studio 2", priority: "Low", status: "Resolved", reporter: "Studio team", date: "29 Sep 2026", description: "The door closer needs adjustment; the door currently closes too forcefully." },
+  { id: "FX-1033", title: "AC control panel unresponsive", category: "Electrical", location: "Block C · Room 219", priority: "High", status: "In Progress", reporter: "Priya Nair", date: "28 Sep 2026", description: "The room control panel is not responding and the air conditioning is stuck on." },
+  { id: "FX-1032", title: "Damaged noticeboard frame", category: "Furniture", location: "Student centre · Ground floor", priority: "Low", status: "Resolved", reporter: "Student services", date: "26 Sep 2026", description: "The bottom corner of the noticeboard frame is damaged and needs a small repair." },
+  { id: "FX-1031", title: "Loose floor tile by reception", category: "Safety", location: "Main reception · East door", priority: "Medium", status: "Pending", reporter: "Reception team", date: "25 Sep 2026", description: "One floor tile moves when stepped on and should be secured to avoid a trip hazard." }
+];
+
+const state = {
+  issues: loadIssues(),
+  query: "",
+  status: "all",
+  priority: "all",
+  category: "all",
+  sort: "newest",
+  activeIssueId: null
+};
+
+const $ = (selector, parent = document) => parent.querySelector(selector);
+const $$ = (selector, parent = document) => [...parent.querySelectorAll(selector)];
+
+function loadIssues() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
+    return (Array.isArray(saved) && saved.length ? saved : seedIssues).map(withTracking);
+  } catch (error) {
+    return seedIssues.map(withTracking);
+  }
+}
+
+function persistIssues() {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state.issues)); } catch (error) {}
+}
+
+function isLoggedIn() {
+  try { return sessionStorage.getItem(SESSION_KEY) === "true"; } catch (error) { return false; }
+}
+
+function showApp() {
+  $("#login-view").classList.add("is-hidden");
+  $("#app-view").classList.remove("is-hidden");
+  renderAll();
+  applyUser();
+  countUp();
+}
+
+function showLogin() {
+  $("#app-view").classList.add("is-hidden");
+  $("#login-view").classList.remove("is-hidden");
+}
+
+function iconForCategory(category) {
+  return { Furniture: "▦", Electrical: "ϟ", Water: "≈", Classroom: "□", Safety: "!", Other: "•" }[category] || "•";
+}
+
+function classForCategory(category) {
+  return `issue-symbol--${String(category).toLowerCase()}`;
+}
+
+function statusClass(status) {
+  return status === "In Progress" ? "status-chip--progress" : `status-chip--${status.toLowerCase()}`;
+}
+
+function priorityClass(priority) {
+  return `priority-chip--${priority.toLowerCase()}`;
+}
+
+function formatRelative(dateString) {
+  const parts = dateString.split(" ");
+  if (parts.length < 3) return dateString;
+  const day = Number(parts[0]);
+  const month = parts[1];
+  if (day === 4 && month === "Oct") return "Today";
+  if (day === 3 && month === "Oct") return "Yesterday";
+  return `${day} ${month}`;
+}
+
+function filteredIssues() {
+  const query = state.query.trim().toLowerCase();
+  return state.issues.filter((issue) => {
+    const matchesQuery = !query || [issue.id, issue.title, issue.category, issue.location, issue.description].some((value) => value.toLowerCase().includes(query));
+    const matchesStatus = state.status === "all" || (state.status === "Overdue" ? isOverdue(issue) : issue.status === state.status);
+    const matchesPriority = state.priority === "all" || issue.priority === state.priority;
+    const matchesCategory = state.category === "all" || issue.category === state.category;
+    return matchesQuery && matchesStatus && matchesPriority && matchesCategory;
+  }).sort((a, b) => state.sort === "priority" ? ({ High: 0, Medium: 1, Low: 2 }[a.priority] - { High: 0, Medium: 1, Low: 2 }[b.priority]) : 0);
+}
+
+function renderIssues() {
+  const list = $("#issue-list");
+  const issues = filteredIssues();
+  list.innerHTML = issues.map((issue) => `
+    <div class="issue-row" data-issue-id="${issue.id}">
+      <div class="issue-main"><span class="issue-symbol ${classForCategory(issue.category)}" aria-hidden="true">${iconForCategory(issue.category)}</span><div class="issue-copy"><strong title="${escapeHtml(issue.title)}">${escapeHtml(issue.title)}</strong><span>${issue.id} · ${escapeHtml(issue.category)}${overdueBadge(issue)}</span></div></div>
+      <span class="issue-location" title="${escapeHtml(issue.location)}">${escapeHtml(issue.location)}</span>
+      <span class="priority-chip ${priorityClass(issue.priority)}">${issue.priority}</span>
+      <span class="status-chip ${statusClass(issue.status)}"><select class="status-select" data-status-id="${issue.id}" aria-label="Update status for ${escapeHtml(issue.title)}"><option ${issue.status === "Pending" ? "selected" : ""}>Pending</option><option ${issue.status === "In Progress" ? "selected" : ""}>In Progress</option><option ${issue.status === "Resolved" ? "selected" : ""}>Resolved</option></select></span>
+      <span class="issue-date">${formatRelative(issue.date)}</span>
+      <button class="row-action" type="button" data-detail-id="${issue.id}" aria-label="View details for ${escapeHtml(issue.title)}">⋯</button>
+    </div>`).join("");
+  $("#empty-state").classList.toggle("is-hidden", issues.length > 0);
+  $("#issue-list").classList.toggle("is-hidden", issues.length === 0);
+  $("#issue-result-count").textContent = issues.length === state.issues.length ? `Showing all ${issues.length} reports` : `Showing ${issues.length} of ${state.issues.length} reports`;
+  $("#sidebar-total").textContent = state.issues.length;
+  syncSelection();
+}
+
+function renderMetrics() {
+  const total = state.issues.length;
+  const open = state.issues.filter((issue) => issue.status === "Pending").length;
+  const progress = state.issues.filter((issue) => issue.status === "In Progress").length;
+  const resolved = state.issues.filter((issue) => issue.status === "Resolved").length;
+  $("#metric-total").textContent = total;
+  $("#metric-open").textContent = open;
+  $("#metric-progress").textContent = progress;
+  $("#metric-resolved").textContent = resolved;
+  $("#donut-center").textContent = total;
+  const resolutionRate = total ? Math.round((resolved / total) * 100) : 0;
+  $("#resolution-score").textContent = `${resolutionRate}%`;
+  $(".signal-strip__bar span").style.width = `${Math.max(8, resolutionRate)}%`;
+  const pendingDeg = total ? (open / total) * 360 : 0;
+  const progressDeg = total ? (progress / total) * 360 : 0;
+  $("#status-donut").style.background = `conic-gradient(var(--mint-deep) 0deg ${resolutionRate / 100 * 360}deg, #736aa9 ${resolutionRate / 100 * 360}deg ${(resolutionRate / 100 * 360) + progressDeg}deg, #c4882b ${(resolutionRate / 100 * 360) + progressDeg}deg 360deg)`;
+  const legend = [{ label: "Resolved", value: resolved, color: "var(--mint-deep)" }, { label: "In progress", value: progress, color: "#736aa9" }, { label: "Pending", value: open, color: "#c4882b" }];
+  $("#status-legend").innerHTML = legend.map((item) => `<div class="legend-item"><i style="background:${item.color}"></i><strong>${item.value}</strong><span>${item.label}</span></div>`).join("");
+}
+
+function renderCategories() {
+  const counts = ["Furniture", "Electrical", "Water", "Classroom", "Safety"].map((category) => ({ category, count: state.issues.filter((issue) => issue.category === category).length }));
+  const max = Math.max(...counts.map((item) => item.count), 1);
+  $("#category-bars").innerHTML = counts.map((item) => `<div class="category-bar${state.category === item.category ? " is-selected" : ""}" data-cat="${item.category}" role="button" tabindex="0" aria-pressed="${state.category === item.category}"><span>${item.category}</span><div class="category-bar__track"><span style="width:${Math.max(8, item.count / max * 100)}%"></span></div><strong>${item.count}</strong></div>`).join("");
+}
+
+function renderAll() {
+  renderIssues();
+  renderMetrics();
+  renderCategories();
+  renderTeams();
+}
+
+function escapeHtml(value) {
+  return String(value).replace(/[&<>'"]/g, (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;" }[character]));
+}
+
+function openModal(selector) {
+  $("#modal-backdrop").classList.remove("is-hidden");
+  $(selector).classList.remove("is-hidden");
+  document.body.style.overflow = "hidden";
+  const firstField = $("input, textarea, select, button", $(selector));
+  if (firstField) setTimeout(() => firstField.focus(), 50);
+}
+
+function closeModals() {
+  $("#modal-backdrop").classList.add("is-hidden");
+  $$(".modal").forEach((modal) => modal.classList.add("is-hidden"));
+  document.body.style.overflow = "";
+  state.activeIssueId = null;
+}
+
+function openNewIssueModal() {
+  $("#issue-form").reset();
+  $("#modal-kicker").textContent = "new report";
+  $("#issue-modal-title").textContent = "Report an issue";
+  openModal("#issue-modal");
+}
+
+function openDetailModal(issueId) {
+  const issue = state.issues.find((item) => item.id === issueId);
+  if (!issue) return;
+  state.activeIssueId = issueId;
+  $("#detail-kicker").textContent = `${issue.id} / ${issue.category}`;
+  $("#detail-title").textContent = "Issue details";
+  $("#detail-body").innerHTML = `<div class="detail-top"><div><h3 class="detail-title">${escapeHtml(issue.title)}</h3><span class="detail-id">Reported ${escapeHtml(issue.date)} · ${escapeHtml(issue.reporter || "Campus admin")}</span></div><div class="detail-tags"><span class="priority-chip ${priorityClass(issue.priority)}">${issue.priority} priority</span><span class="status-chip ${statusClass(issue.status)}">${issue.status}</span></div></div><p class="detail-description">${escapeHtml(issue.description)}</p><div class="detail-meta"><div><span>Location</span><strong>${escapeHtml(issue.location)}</strong></div><div><span>Category</span><strong>${escapeHtml(issue.category)}</strong></div><div><span>Issue ID</span><strong>${issue.id}</strong></div></div><div class="detail-actions"><label>Update status <select id="detail-status-select"><option ${issue.status === "Pending" ? "selected" : ""}>Pending</option><option ${issue.status === "In Progress" ? "selected" : ""}>In Progress</option><option ${issue.status === "Resolved" ? "selected" : ""}>Resolved</option></select></label><span class="detail-btns"><button class="button button--secondary" type="button" id="detail-contact">Contact officials</button><button class="button button--ghost" type="button" id="detail-delete">Delete</button><button class="button button--primary" type="button" id="detail-done">Done</button></span></div>`;
+  const extra = document.createElement("div");
+  extra.className = "detail-extra";
+  extra.innerHTML = `<div class="detail-assign"><label>Assigned to <select id="detail-assignee">${teams().map((team) => `<option ${team === issue.assignee ? "selected" : ""}>${team}</option>`).join("")}</select></label><span class="sla-line ${isOverdue(issue) ? "sla--late" : ""}">${slaText(issue)}</span></div><h4 class="timeline-title">Activity</h4><ol class="timeline">${issue.log.slice().reverse().map((entry) => `<li><time>${escapeHtml(entry.t)}</time><span>${escapeHtml(entry.text)}</span></li>`).join("")}</ol><div class="note-row"><input id="detail-note" type="text" placeholder="Add a note for the team" aria-label="Add a note" /><button class="button button--secondary button--compact" type="button" id="detail-note-add">Add note</button></div>`;
+  $("#detail-body").insertBefore(extra, $(".detail-actions", $("#detail-body")));
+  openModal("#detail-modal");
+  $("#detail-assignee").addEventListener("change", (event) => {
+    issue.assignee = event.target.value;
+    addLog(issue, `Reassigned to ${issue.assignee}`);
+    persistIssues();
+    renderAll();
+    openDetailModal(issueId);
+    showToast(`${issue.id} assigned to ${issue.assignee}.`);
+  });
+  const addNote = () => {
+    const text = $("#detail-note").value.trim();
+    if (!text) return;
+    addLog(issue, `Note: ${text}`);
+    persistIssues();
+    openDetailModal(issueId);
+  };
+  $("#detail-note-add").addEventListener("click", addNote);
+  $("#detail-note").addEventListener("keydown", (event) => { if (event.key === "Enter") { event.preventDefault(); addNote(); } });
+  $("#detail-status-select").addEventListener("change", (event) => updateStatus(issueId, event.target.value));
+  $("#detail-done").addEventListener("click", closeModals);
+  $("#detail-delete").addEventListener("click", () => deleteIssue(issueId));
+  $("#detail-contact").addEventListener("click", () => { closeModals(); openContact(issueId); });
+}
+
+function updateStatus(issueId, status) {
+  const issue = state.issues.find((item) => item.id === issueId);
+  if (!issue) return;
+  issue.status = status;
+  addLog(issue, `Status changed to ${status}`);
+  persistIssues();
+  renderAll();
+  showToast(`${issue.id} moved to ${status}.`);
+  if (!$("#detail-modal").classList.contains("is-hidden")) openDetailModal(issueId);
+}
+
+function showToast(message, action) {
+  const toast = document.createElement("div");
+  toast.className = "toast";
+  const text = document.createElement("span");
+  text.textContent = message;
+  toast.append(text);
+  if (action) {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "toast-action";
+    button.textContent = action.label;
+    button.addEventListener("click", () => { action.run(); toast.remove(); });
+    toast.append(button);
+  }
+  $("#toast-region").append(toast);
+  setTimeout(() => toast.remove(), action ? 6000 : 3200);
+}
+
+function deleteIssue(issueId) {
+  const index = state.issues.findIndex((item) => item.id === issueId);
+  if (index < 0) return;
+  const [removed] = state.issues.splice(index, 1);
+  persistIssues();
+  closeModals();
+  renderAll();
+  showToast(`${removed.id} deleted.`, { label: "Undo", run: () => { state.issues.splice(index, 0, removed); persistIssues(); renderAll(); } });
+}
+
+function syncSelection() {
+  $$("[data-metric]").forEach((card) => card.classList.toggle("is-selected", state.status !== "all" && card.dataset.metric === state.status));
+}
+
+function countUp() {
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  ["metric-total", "metric-open", "metric-progress", "metric-resolved"].forEach((id) => {
+    const el = $("#" + id);
+    const target = Number(el.textContent);
+    const start = performance.now();
+    const step = (now) => {
+      const t = Math.min(1, (now - start) / 700);
+      el.textContent = Math.round(target * (1 - Math.pow(1 - t, 3)));
+      if (t < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  });
+}
+
+function setupInteractions() {
+  const goToQueue = () => $("#issues").scrollIntoView({ behavior: "smooth", block: "start" });
+  $$("[data-metric]").forEach((card) => {
+    card.setAttribute("role", "button");
+    card.setAttribute("tabindex", "0");
+    const apply = () => {
+      const value = card.dataset.metric;
+      state.status = state.status === value ? "all" : value;
+      $("#status-filter").value = state.status;
+      renderIssues();
+      goToQueue();
+      showToast(state.status === "all" ? "Showing every report." : `Showing ${state.status.toLowerCase()} reports.`);
+    };
+    card.addEventListener("click", apply);
+    card.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); apply(); } });
+  });
+  const pickCategory = (bar) => {
+    state.category = state.category === bar.dataset.cat ? "all" : bar.dataset.cat;
+    renderCategories();
+    renderIssues();
+    goToQueue();
+    showToast(state.category === "all" ? "Category filter cleared." : `Showing ${state.category.toLowerCase()} reports.`);
+  };
+  $("#category-bars").addEventListener("click", (e) => { const bar = e.target.closest("[data-cat]"); if (bar) pickCategory(bar); });
+  $("#category-bars").addEventListener("keydown", (e) => { const bar = e.target.closest("[data-cat]"); if (bar && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); pickCategory(bar); } });
+  $("#sort-filter").addEventListener("change", (e) => { state.sort = e.target.value; renderIssues(); });
+  $(".notification-button").addEventListener("click", () => {
+    const urgent = state.issues.filter((i) => i.priority === "High" && i.status !== "Resolved").length;
+    showToast(urgent ? `${urgent} high-priority issues still need action.` : "Nothing urgent right now.");
+  });
+  document.addEventListener("keydown", (e) => {
+    const typing = /^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement.tagName);
+    if (typing || e.metaKey || e.ctrlKey || e.altKey || $("#app-view").classList.contains("is-hidden") || !$("#issue-modal").classList.contains("is-hidden")) return;
+    if (e.key === "/") { e.preventDefault(); $("#search-input").focus(); }
+    if (e.key === "n") { e.preventDefault(); openNewIssueModal(); }
+  });
+  $("#search-input").placeholder = "Search by issue, ID or location  ( / )";
+}
+
+function setupEvents() {
+  $("#fill-demo").addEventListener("click", () => {
+    $("#login-email").value = DEMO_CREDENTIALS.email;
+    $("#login-password").value = DEMO_CREDENTIALS.password;
+    $("#login-password").focus();
+  });
+  $(".password-toggle").addEventListener("click", (event) => {
+    const input = $("#login-password");
+    const visible = input.type === "text";
+    input.type = visible ? "password" : "text";
+    event.currentTarget.textContent = visible ? "show" : "hide";
+    event.currentTarget.setAttribute("aria-label", visible ? "Show password" : "Hide password");
+  });
+  $("#logout-button").addEventListener("click", () => {
+    try { sessionStorage.removeItem(SESSION_KEY); } catch (error) {}
+    showLogin();
+    showToast("Signed out of the admin workspace.");
+  });
+  $("#menu-toggle").addEventListener("click", () => $("#sidebar").classList.add("is-open"));
+  $("#sidebar-close").addEventListener("click", () => $("#sidebar").classList.remove("is-open"));
+  $$("[data-scroll-target]").forEach((button) => button.addEventListener("click", () => {
+    const target = $("#" + button.dataset.scrollTarget);
+    if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
+    $$(".nav-item").forEach((item) => item.classList.remove("is-active"));
+    button.classList.add("is-active");
+    $("#sidebar").classList.remove("is-open");
+  }));
+  $$("[data-action='new-issue']").forEach((button) => button.addEventListener("click", openNewIssueModal));
+  $("#header-new-issue").addEventListener("click", openNewIssueModal);
+  $$("[data-action='insights']").forEach((button) => button.addEventListener("click", () => $("#insights").scrollIntoView({ behavior: "smooth" })));
+  $$("[data-action='help']").forEach((button) => button.addEventListener("click", () => showToast("Tip: use filters to narrow the live queue, then open an issue for the full story.")));
+  $("#search-input").addEventListener("input", (event) => { state.query = event.target.value; renderIssues(); });
+  $("#status-filter").addEventListener("change", (event) => { state.status = event.target.value; renderIssues(); });
+  $("#priority-filter").addEventListener("change", (event) => { state.priority = event.target.value; renderIssues(); });
+  $("#clear-filters").addEventListener("click", clearFilters);
+  $("#empty-clear").addEventListener("click", clearFilters);
+  $("#issue-list").addEventListener("click", (event) => {
+    const detailButton = event.target.closest("[data-detail-id]");
+    if (detailButton) openDetailModal(detailButton.dataset.detailId);
+  });
+  $("#issue-list").addEventListener("change", (event) => {
+    const select = event.target.closest("[data-status-id]");
+    if (select) updateStatus(select.dataset.statusId, select.value);
+  });
+  $("#issue-form").addEventListener("submit", (event) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const newId = `FX-${Math.max(1041, ...state.issues.map((i) => parseInt(i.id.slice(3), 10) || 0)) + 1}`;
+    const newIssue = { id: newId, title: String(formData.get("title")).trim(), category: String(formData.get("category")), location: String(formData.get("location")).trim(), priority: String(formData.get("priority")), status: "Pending", reporter: String(formData.get("reporter")).trim() || "Campus admin", date: "04 Oct 2026", description: String(formData.get("description")).trim() };
+    state.issues.unshift(withTracking(newIssue));
+    persistIssues();
+    closeModals();
+    renderAll();
+    showToast(`${newId} added to the live queue.`);
+  });
+  $$(".modal-close, .modal-cancel").forEach((button) => button.addEventListener("click", closeModals));
+  $("#modal-backdrop").addEventListener("click", closeModals);
+  document.addEventListener("keydown", (event) => { if (event.key === "Escape") closeModals(); });
+}
+
+function clearFilters() {
+  state.query = "";
+  state.status = "all";
+  state.priority = "all";
+  state.category = "all";
+  state.sort = "newest";
+  $("#sort-filter").value = "newest";
+  renderCategories();
+  $("#search-input").value = "";
+  $("#status-filter").value = "all";
+  $("#priority-filter").value = "all";
+  renderIssues();
+}
+
+const OFFICIALS_PHONE = "9597430380";
+const THEME_KEY = "fixlit-theme";
+
+function applyTheme(name) {
+  document.documentElement.dataset.theme = name;
+  $$("[data-theme-choice]").forEach((button) => button.setAttribute("aria-pressed", String(button.dataset.themeChoice === name)));
+}
+
+function openContact(issueId) {
+  const select = $("#contact-issue");
+  select.innerHTML = "";
+  select.add(new Option("General enquiry", ""));
+  state.issues.filter((i) => i.status !== "Resolved" || i.id === issueId).forEach((i) => select.add(new Option(`${i.id} · ${i.title}`, i.id)));
+  select.value = issueId || "";
+  $("#contact-note").value = "";
+  updateContactLink();
+  openModal("#contact-modal");
+}
+
+function updateContactLink() {
+  const issue = state.issues.find((i) => i.id === $("#contact-issue").value);
+  const note = $("#contact-note").value.trim();
+  const parts = ["Hello, this is the campus admin (Fixlit)."];
+  if (issue) parts.push(`Issue ${issue.id}: ${issue.title} at ${issue.location} (${issue.priority} priority, ${issue.status}).`);
+  if (note) parts.push(note);
+  $("#contact-sms").href = `sms:${OFFICIALS_PHONE}?body=${encodeURIComponent(parts.join(" "))}`;
+}
+
+function setupExtras() {
+  let saved = "sand";
+  try { saved = localStorage.getItem(THEME_KEY) || "sand"; } catch (error) {}
+  applyTheme(saved);
+  $$("[data-theme-choice]").forEach((button) => button.addEventListener("click", () => {
+    applyTheme(button.dataset.themeChoice);
+    try { localStorage.setItem(THEME_KEY, button.dataset.themeChoice); } catch (error) {}
+    showToast(`${button.title} background applied.`);
+  }));
+  $$("[data-action='contact']").forEach((button) => button.addEventListener("click", () => { $("#sidebar").classList.remove("is-open"); openContact(); }));
+  $("#contact-issue").addEventListener("change", updateContactLink);
+  $("#contact-note").addEventListener("input", updateContactLink);
+  $("#contact-copy").addEventListener("click", () => {
+    const done = () => showToast("Number copied: 95974 30380");
+    const fail = () => showToast("Officials' number: 95974 30380");
+    try { navigator.clipboard.writeText(OFFICIALS_PHONE).then(done, fail); } catch (error) { fail(); }
+  });
+}
+
+setupEvents();
+setupInteractions();
+setupExtras();
+const ACCOUNTS_KEY = "fixlit-accounts";
+const USER_KEY = "fixlit-user";
+let memoryAccounts = [];
+let currentUser = null;
+
+function loadAccounts() {
+  try { const list = JSON.parse(localStorage.getItem(ACCOUNTS_KEY)); return Array.isArray(list) ? list : memoryAccounts; } catch (error) { return memoryAccounts; }
+}
+
+function saveAccounts(list) {
+  memoryAccounts = list;
+  try { localStorage.setItem(ACCOUNTS_KEY, JSON.stringify(list)); } catch (error) {}
+}
+
+async function hashPassword(email, password) {
+  try {
+    const buffer = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(`fixlit:${email}:${password}`));
+    return [...new Uint8Array(buffer)].map((byte) => byte.toString(16).padStart(2, "0")).join("");
+  } catch (error) {
+    return "p:" + btoa(unescape(encodeURIComponent(password)));
+  }
+}
+
+function startSession(user, message) {
+  currentUser = user;
+  try { sessionStorage.setItem(SESSION_KEY, "true"); sessionStorage.setItem(USER_KEY, JSON.stringify(user)); } catch (error) {}
+  showApp();
+  showToast(message);
+}
+
+function applyUser() {
+  let user = currentUser;
+  if (!user) { try { user = JSON.parse(sessionStorage.getItem(USER_KEY)); } catch (error) {} }
+  if (!user || !user.name) user = { name: "Alex Morgan", email: DEMO_CREDENTIALS.email };
+  const words = user.name.split(" ").filter(Boolean);
+  const initials = words.slice(0, 2).map((word) => word[0].toUpperCase()).join("") || "U";
+  $$(".avatar").forEach((avatar) => { avatar.textContent = initials; });
+  $(".account-mini strong").textContent = user.name;
+  $(".hero-subtitle").textContent = `Good morning, ${words[0] || "there"}. Here’s the signal from around campus today.`;
+}
+
+function setAuthMode(mode) {
+  const signup = mode === "signup";
+  $("#login-form").classList.toggle("is-hidden", signup);
+  $("#signup-form").classList.toggle("is-hidden", !signup);
+  $(".demo-access").classList.toggle("is-hidden", signup);
+  $$(".auth-tab").forEach((tab) => tab.setAttribute("aria-selected", String(tab.dataset.mode === mode)));
+  $(".login-heading h2").textContent = signup ? "Create your account." : "Welcome back.";
+  $(".login-heading p").textContent = signup ? "Set up your access to the campus workspace." : "Sign in to see what needs attention across campus.";
+  $("#login-error").textContent = "";
+  $("#signup-error").textContent = "";
+}
+
+function setupAuth() {
+  $$(".auth-tab").forEach((tab) => tab.addEventListener("click", () => setAuthMode(tab.dataset.mode)));
+  $("#login-form").addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const email = String(formData.get("email")).trim().toLowerCase();
+    const password = String(formData.get("password"));
+    if (email === DEMO_CREDENTIALS.email && password === DEMO_CREDENTIALS.password) {
+      $("#login-error").textContent = "";
+      startSession({ name: "Alex Morgan", email }, "Welcome back, Alex. The campus is in view.");
+      return;
+    }
+    const hash = await hashPassword(email, password);
+    const account = loadAccounts().find((item) => item.email === email && item.hash === hash);
+    if (account) {
+      $("#login-error").textContent = "";
+      startSession({ name: account.name, email }, `Welcome back, ${account.name.split(" ")[0]}. The campus is in view.`);
+    } else {
+      $("#login-error").textContent = "That email and password don’t match. Check them, or create an account.";
+    }
+  });
+  $("#signup-form").addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const name = $("#signup-name").value.trim();
+    const email = $("#signup-email").value.trim().toLowerCase();
+    const password = $("#signup-password").value;
+    const error = $("#signup-error");
+    const accounts = loadAccounts();
+    if (!name) { error.textContent = "Enter your name."; return; }
+    if (password.length < 6) { error.textContent = "Use a password with at least 6 characters."; return; }
+    if (password !== $("#signup-confirm").value) { error.textContent = "The two passwords don’t match."; return; }
+    if (email === DEMO_CREDENTIALS.email || accounts.some((item) => item.email === email)) { error.textContent = "An account with this email already exists. Sign in instead."; return; }
+    saveAccounts([...accounts, { name, email, hash: await hashPassword(email, password) }]);
+    event.currentTarget.reset();
+    error.textContent = "";
+    setAuthMode("signin");
+    startSession({ name, email }, `Account created. Welcome, ${name.split(" ")[0]}.`);
+  });
+}
+
+function teams() { return ["Electrical team", "Plumbing team", "Carpentry & furniture", "Safety & security", "Facilities desk"]; }
+function routeTeam(category) { return { Electrical: "Electrical team", Water: "Plumbing team", Furniture: "Carpentry & furniture", Safety: "Safety & security" }[category] || "Facilities desk"; }
+function appToday() { return new Date(2026, 9, 4); }
+function stamp() { const now = new Date(); return `04 Oct · ${String(now.getHours()).padStart(2, "0")}:${String(now.getMinutes()).padStart(2, "0")}`; }
+function addLog(issue, text) { issue.log.push({ t: stamp(), text }); }
+function withTracking(issue) {
+  if (!issue.log) {
+    issue.assignee = issue.assignee || routeTeam(issue.category);
+    issue.log = [{ t: issue.date, text: `Reported by ${issue.reporter || "Campus admin"}` }, { t: issue.date, text: `Auto-routed to ${issue.assignee}` }];
+    if (issue.status !== "Pending") issue.log.push({ t: issue.date, text: `Status: ${issue.status}` });
+  }
+  return issue;
+}
+function parseIssueDate(text) {
+  const months = { Jan: 0, Feb: 1, Mar: 2, Apr: 3, May: 4, Jun: 5, Jul: 6, Aug: 7, Sep: 8, Oct: 9, Nov: 10, Dec: 11 };
+  const [day, month, year] = text.split(" ");
+  return new Date(Number(year), months[month], Number(day));
+}
+function dueDate(issue) { const due = parseIssueDate(issue.date); due.setDate(due.getDate() + ({ High: 1, Medium: 3, Low: 7 }[issue.priority] || 3)); return due; }
+function isOverdue(issue) { return issue.status !== "Resolved" && dueDate(issue) < appToday(); }
+function slaText(issue) {
+  if (issue.status === "Resolved") return "Resolved";
+  const diff = Math.round((dueDate(issue) - appToday()) / 86400000);
+  if (diff < 0) return `Overdue by ${-diff} day${diff === -1 ? "" : "s"}`;
+  return diff === 0 ? "Due today" : `Due in ${diff} day${diff === 1 ? "" : "s"}`;
+}
+function overdueBadge(issue) { return isOverdue(issue) ? ' <em class="sla-badge">Overdue</em>' : ""; }
+
+function renderTeams() {
+  const rows = teams().map((team) => {
+    const open = state.issues.filter((i) => i.assignee === team && i.status !== "Resolved");
+    return { team, open: open.length, late: open.filter(isOverdue).length };
+  });
+  const max = Math.max(...rows.map((r) => r.open), 1);
+  $("#team-grid").innerHTML = rows.map((r) => `<div class="team-row"><span>${escapeHtml(r.team)}</span><div class="category-bar__track"><span style="width:${Math.max(6, r.open / max * 100)}%"></span></div><strong>${r.open}</strong>${r.late ? `<em class="sla-badge">${r.late} overdue</em>` : "<em></em>"}</div>`).join("");
+}
+
+function setupGoogle() {
+  $("#google-btn").addEventListener("click", () => openModal("#google-modal"));
+  $("#google-form").addEventListener("submit", (event) => {
+    event.preventDefault();
+    const name = $("#google-name").value.trim();
+    const email = $("#google-email").value.trim().toLowerCase();
+    event.currentTarget.reset();
+    closeModals();
+    startSession({ name, email }, `Signed in as ${name} (Google demo).`);
+  });
+}
+
+function setupAbout() {
+  $$("[data-action='about']").forEach((button) => button.addEventListener("click", () => { $("#sidebar").classList.remove("is-open"); openModal("#about-modal"); }));
+  $("#about-help").addEventListener("click", () => { closeModals(); openContact(); });
+}
+
+setupAbout();
+setupGoogle();
+setupAuth();
+if (isLoggedIn()) showApp();
+
+</script>
+  </body>
+</html>
